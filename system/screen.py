@@ -1,3 +1,5 @@
-from pgzero import screen
+from pgzero.screen import SurfacePainter
+import pgzero.game as pgzscreen
+import pgzero.screen as pgzdraw
 
-screen = screen.Screen(screen)
+screen = pgzdraw.Screen(pgzscreen.screen)
