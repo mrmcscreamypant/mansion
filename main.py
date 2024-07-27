@@ -1,11 +1,10 @@
 import pgzrun
-import pgzero
 from pgzhelper import *
 
 from system.mainloop import Mainloop
+import CONSTS
 
-WIDTH = 1024
-HEIGHT = 1024
+WIDTH,HEIGHT = CONSTS.WIDTH,CONSTS.HEIGHT
 
 TITLE = "Mansion..."
 
