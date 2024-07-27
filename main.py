@@ -4,7 +4,7 @@ from pgzhelper import *
 from system.mainloop import Mainloop
 import CONSTS
 
-WIDTH,HEIGHT = CONSTS.WIDTH,CONSTS.HEIGHT
+WIDTH,HEIGHT = 0,0
 
 TITLE = "Mansion..."
 
@@ -16,6 +16,7 @@ def update():
     global frame
     if frame == 0:
         set_fullscreen()
+        hide_mouse()
     main.update()
     frame += 1
 
