@@ -1,12 +1,11 @@
 from .screen import getscreen
+from .states.menu import MenuState
 
 class Mainloop:
-    def __init__(self):
-        pass
+    state = MenuState()
 
     def update(self):
-        pass
+        self.state.update()
 
     def draw(self):
-        screen = getscreen()
-        screen.fill("white")
+        self.state.draw()
