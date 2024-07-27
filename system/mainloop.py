@@ -1,4 +1,4 @@
-from .screen import screen
+from .screen import getscreen
 
 class Mainloop:
     def __init__(self):
@@ -8,4 +8,5 @@ class Mainloop:
         pass
 
     def draw(self):
+        screen = getscreen()
         screen.fill("white")
