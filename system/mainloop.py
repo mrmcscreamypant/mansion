@@ -2,7 +2,8 @@ from .screen import getscreen
 from .states.menu import MenuState
 
 class Mainloop:
-    state = MenuState()
+    def __init__(self):
+        self.state = MenuState(self)
 
     def update(self):
         self.state.update()

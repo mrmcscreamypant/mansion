@@ -1,5 +1,6 @@
 from pgzero.keyboard import keyboard
 
+from .savefiles import SaveFiles
 from .state import State
 from system.screen import getscale
 
@@ -13,7 +14,7 @@ class MenuState(State):
         global instructions
 
         if keyboard.x:
-            raise Exception("Hey, I havent gotten to that part yet!")
+            self.mainloop.state = SaveFiles(self.mainloop)
 
         self.frame += 1
 

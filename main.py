@@ -2,7 +2,6 @@ import pgzrun
 from pgzhelper import *
 
 from system.mainloop import Mainloop
-import CONSTS
 
 WIDTH,HEIGHT = 0,0
 
