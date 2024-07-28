@@ -2,7 +2,7 @@
 
 X - interact / select
 Z - jump / back
-#todo
+ARROW KEYS / WASD - pick / move
 #todo
 
 press X to continue
