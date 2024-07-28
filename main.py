@@ -1,9 +1,7 @@
 import pgzrun
 import pygame
+
 from pgzhelper import *
-
-import system.screen
-
 from system.mainloop import Mainloop
 
 WIDTH,HEIGHT = 512,512
