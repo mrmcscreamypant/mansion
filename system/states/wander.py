@@ -28,12 +28,19 @@ class TileGrid(Entity):
     def __init__(self,main):
         self.main = main
         self.regester_tiles()
+        self.load_room("debug_room")
     
     grid = []
 
-    colors = ["red","green","blue","red"]
-
     tilesize = 32
+
+    def load_room(self,room):
+        with open(f"./data/wander/rooms/{room}.room") as file:
+            data = file.read().split("\n")
+            header = json.loads(data[0])
+            self.grid = data[1:]
+            for i,row in enumerate(self.grid):
+                self.grid[i] = row.split(" ")
     
     def regester_tiles(self):
         with open("./data/wander/tiles") as file:
@@ -54,6 +61,9 @@ class TileGrid(Entity):
                 else:
                     tile = self.tiles["-1"]
 
+                if tile == "empty":
+                    continue
+
                 exec(f"tile = images.{tile}")
 
                 dpos = Vec(
@@ -68,13 +78,13 @@ class TileGrid(Entity):
         gpos = Vec(int(pos.x/self.tilesize),int(pos.y/self.tilesize))
         try:
             if pos.y < 0 or gpos.y > len(self.grid)-1:
-                return 2
+                return "-2"
             if pos.x < 0 or gpos.x > len(self.grid[gpos.y])-1:
-                return 2
+                return "-2"
 
-            return int(self.grid[gpos.y][gpos.x])
+            return self.grid[gpos.y][gpos.x]
         except IndexError:
-            return 3
+            return "-2"
                 
     def new_grid(self):
         for y in range(10):
@@ -99,7 +109,10 @@ class PlatformingEntity(Entity):
     on_ground = False
 
     def check_collide_ground(self):
-        return self.main.tilegrid.get_tile(self.pos) == 3
+        solid = ["-2",
+                "-1",
+                 "1"]
+        return self.main.tilegrid.get_tile(self.pos) in solid
 
     def jump(self):
         if self.jump_time > self.JUMP_TIME:
@@ -200,7 +213,7 @@ class WanderState(State):
     entities = []
     camera = Vec(-100,-100)
 
-    editmode = True
+    editmode = False
     
     def update(self):
         for entity in self.entities:

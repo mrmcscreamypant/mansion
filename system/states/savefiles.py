@@ -7,7 +7,7 @@ from pgzero.builtins import Rect
 from pgzero.builtins import keyboard
 
 from .state import State
-from .disclaimer import Disclaimer
+from .newgame import NewGame
 
 files = {}
 
@@ -40,7 +40,7 @@ class SaveFiles(State):
         self.selected = self.selected%3
 
         if keyboard.x and not self.xdown:
-           self.mainloop.state = Disclaimer(self.mainloop)
+           self.mainloop.state = NewGame(self.mainloop)
           
         if not keyboard.x:
            self.xdown = False

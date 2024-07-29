@@ -8,7 +8,7 @@ from .wander import WanderState
 with open("./data/menu/disclaimer.txt") as file:
     instructions = file.read().split("\n")
 
-class Disclaimer(State):
+class NewGame(State):
     hack = True
 
     def update(self):

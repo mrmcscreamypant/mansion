@@ -1,3 +1,6 @@
 {
-    "-1": "errortile"
+    "-2": "empty",
+    "-1": "errortile",
+    "0": "empty",
+    "1": "grass"
 }
