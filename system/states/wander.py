@@ -3,7 +3,10 @@ from system.screen import HEIGHT, getscale
 
 from system.utils.vec import Vec
 
-from pgzero.builtins import Rect, keyboard
+import json
+
+from pgzero.builtins import Rect, keyboard, images
+import pygame.transform
 
 class Entity:
     pos = Vec(0,0)
@@ -24,20 +27,18 @@ class Entity:
 class TileGrid(Entity):
     def __init__(self,main):
         self.main = main
-        self.new_grid()
+        self.regester_tiles()
     
-    grid = [
-        "00000",
-        "03010",
-        "0000022232",
-        "0333022232",
-        "0000022232"
-           ]
+    grid = []
 
-    colors = ["red","green","blue","yellow"]
+    colors = ["red","green","blue","red"]
 
     tilesize = 32
     
+    def regester_tiles(self):
+        with open("./data/wander/tiles") as file:
+            self.tiles = json.load(file)
+
     def draw(self):
         width,height = getscale()
         for y in range(int(height/self.tilesize)+2):
@@ -47,20 +48,21 @@ class TileGrid(Entity):
                     y*self.tilesize+self.main.camera.y
                    )
 
-                
                 tile = self.get_tile(pos)
+                if tile in self.tiles:
+                    tile = self.tiles[tile]
+                else:
+                    tile = self.tiles["-1"]
+
+                exec(f"tile = images.{tile}")
 
                 dpos = Vec(
                         x*self.tilesize-self.main.camera.x%(self.tilesize),
                         y*self.tilesize-self.main.camera.y%(self.tilesize)
-                       )
-                
-                trect = Rect(dpos.x,dpos.y,self.tilesize,self.tilesize)
-                
-                self.main.screen.draw.filled_rect(
-                    trect,
-                    self.colors[tile]
                 )
+                
+                self.main.screen.blit(tile,(dpos.x,dpos.y))
+                
                 
     def get_tile(self,pos):
         gpos = Vec(int(pos.x/self.tilesize),int(pos.y/self.tilesize))
@@ -172,10 +174,22 @@ class Player(PlatformingEntity):
         if keyboard.right:
             self.vel = Vec(self.vel.x+self.horizontal,self.vel.y)
 
+    def editmode(self):
+        if keyboard.up:
+            self.pos = Vec(self.pos.x,self.pos.y-2)
+        if keyboard.down:
+            self.pos = Vec(self.pos.x,self.pos.y+2)
+        if keyboard.left:
+            self.pos = Vec(self.pos.x-2,self.pos.y)
+        if keyboard.right:
+            self.pos = Vec(self.pos.x+2,self.pos.y)
+
     def update(self):
-        super().update()
-        
-        self.controls()
+        if not self.main.editmode:
+            super().update()
+            self.controls()
+            return
+        self.editmode()
 
 class WanderState(State):
     def __init__(self,main):
@@ -185,6 +199,8 @@ class WanderState(State):
     
     entities = []
     camera = Vec(-100,-100)
+
+    editmode = True
     
     def update(self):
         for entity in self.entities:
