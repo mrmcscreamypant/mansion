@@ -4,7 +4,7 @@ import pygame
 from pgzhelper import *
 from system.mainloop import Mainloop
 
-WIDTH,HEIGHT = 512,512
+WIDTH,HEIGHT = 600,512
 
 TITLE = "Mansion..."
 

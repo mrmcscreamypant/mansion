@@ -7,6 +7,7 @@ from pgzero.builtins import Rect
 from pgzero.builtins import keyboard
 
 from .state import State
+from .disclaimer import Disclaimer
 
 files = {}
 
@@ -23,6 +24,7 @@ for file in os.listdir("./saves"):
 class SaveFiles(State):
     selected = 0
     keydown = False
+    xdown = True
   
     def update(self):
         if keyboard.down:
@@ -36,7 +38,12 @@ class SaveFiles(State):
         else:
             self.keydown = False
         self.selected = self.selected%3
-            
+
+        if keyboard.x and not self.xdown:
+           self.mainloop.state = Disclaimer(self.mainloop)
+          
+        if not keyboard.x:
+           self.xdown = False
 
     def draw_slots(self):
       def draw_slot(i):
