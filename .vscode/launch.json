@@ -8,7 +8,7 @@
             "name": "Python Debugger: Launch full",
             "type": "debugpy",
             "request": "launch",
-            "program": "main.py",
+            "program": "launch.py",
             "console": "integratedTerminal"
         }
     ]

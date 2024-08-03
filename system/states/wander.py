@@ -1,12 +1,13 @@
 from .state import State
-from system.screen import HEIGHT, getscale
+from system.screen import getscale
 
 from system.utils.vec import Vec
 
 import json
 
 from pgzero.builtins import Rect, keyboard, images
-import pygame.transform
+
+import controller
 
 class Entity:
     pos = Vec(0,0)
@@ -94,10 +95,10 @@ class TileGrid(Entity):
             self.grid.append(tmp)
 
 class PlatformingEntity(Entity):
-    GROUND_FRIC = 0.6
+    GROUND_FRIC = 0.2
     GRAV = 0.5
     AIR_FRIC = 0.9
-    JUMP_STRENGTH = 7
+    JUMP_STRENGTH = 6
     JUMP_TIME = 8
     CYOTE = 8
 
@@ -180,11 +181,11 @@ class Player(PlatformingEntity):
         if not self.on_ground:
             self.horizontal = 0.3
 
-        if keyboard.z:
+        if controller.get_key("b",self.id):
             self.jump()
-        if keyboard.left:
+        if controller.get_key("left",self.id):
             self.vel = Vec(self.vel.x-self.horizontal,self.vel.y)
-        if keyboard.right:
+        if controller.get_key("right",self.id):
             self.vel = Vec(self.vel.x+self.horizontal,self.vel.y)
 
     def editmode(self):
@@ -204,10 +205,22 @@ class Player(PlatformingEntity):
             return
         self.editmode()
 
+class Piglet(Player):
+    id = 0
+
+class Doggy(Player):
+    id = 1
+
+    def draw(self):
+        self.main.screen.draw.filled_circle(Vec(self.pos.x-self.main.camera.x,
+                                                self.pos.y-self.main.camera.y),
+                                            10,
+                                            "grey")
+
 class WanderState(State):
     def __init__(self,main):
         super().__init__(main)
-        self.player = Player(self)
+        self.players = [Piglet(self),Doggy(self)]
         self.tilegrid = TileGrid(self)
     
     entities = []
@@ -220,7 +233,7 @@ class WanderState(State):
             entity.update()
 
         width,height = getscale()
-        self.camera = Vec(self.player.pos.x-width/2,self.player.pos.y-height/2)
+        self.camera = Vec(self.players[0].pos.x-width/2,self.players[0].pos.y-height/2)
 
     def draw(self):
         super().draw()

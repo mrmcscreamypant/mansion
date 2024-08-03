@@ -4,7 +4,9 @@ from .savefiles import SaveFiles
 from .state import State
 from system.screen import getscale
 
-with open("./data/menu/instructions.txt") as file:
+import controller
+
+with open("data/menu/instructions.txt") as file:
     instructions = file.read().split("\n")
 
 class MenuState(State):
@@ -13,7 +15,7 @@ class MenuState(State):
     def update(self):
         global instructions
 
-        if keyboard.x:
+        if controller.get_key("a"):
             self.mainloop.state = SaveFiles(self.mainloop)
 
         self.frame += 1
