@@ -1,9 +1,8 @@
 import pyjoycon as pjc
-from threading import Thread
+
+from pgzero.builtins import keyboard
 
 con = None
-
-import time
 
 class Type:
     def set_mappings(self):
@@ -80,6 +79,41 @@ class Joycon(Type):
         joycon = self.joycons[id].get_status()
         return joycon["buttons"]["left"]["left"]
 
+    def set_mappings(self):
+        self.mappings = {
+            "up":self.check_up,
+            "down":self.check_down,
+            "left":self.check_left,
+            "right":self.check_right,
+            "a":self.check_a,
+            "b":self.check_b
+        }
+
+class Keyboard(Type):
+    id=0
+
+    def __init__(self,parent):
+        super().__init__(parent)
+        self.parent.states.append({})
+
+    def check_up(self,id=0):
+        return keyboard.up
+    
+    def check_down(self,id=0):
+        return keyboard.down
+    
+    def check_left(self,id=0):
+        return keyboard.left
+
+    def check_right(self,id=0):
+        return keyboard.right
+    
+    def check_a(self,id=0):
+        return keyboard.x
+    
+    def check_b(self,id=0):
+        return keyboard.z
+    
     def set_mappings(self):
         self.mappings = {
             "up":self.check_up,

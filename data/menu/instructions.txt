@@ -1,8 +1,8 @@
 - INSTRUCTIONS -
 
-X - interact / select
-Z - jump / back
-ARROW KEYS / WASD - pick / move
+A - interact / select
+B - jump / back
+JOYSTICK - pick / move
 #todo
 
-press X to continue
+press A to continue

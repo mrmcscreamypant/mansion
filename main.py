@@ -17,7 +17,7 @@ WIDTH,HEIGHT = 600,512
 TITLE = "Mansion..."
 
 main = Mainloop()
-controller_update = controller.setup(joycon=True)
+controller_update = controller.setup(joycon=False)
 
 frame = 0
 
