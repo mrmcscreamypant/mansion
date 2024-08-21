@@ -9,6 +9,8 @@ from pgzero.builtins import keyboard
 from .state import State
 from .newgame import NewGame
 
+import controller
+
 files = {}
 
 for file in os.listdir("./saves"):
@@ -27,11 +29,11 @@ class SaveFiles(State):
     xdown = True
   
     def update(self):
-        if keyboard.down:
+        if controller.get_key("down"):
             if not self.keydown:
                 self.selected += 1
             self.keydown = True
-        elif keyboard.up:
+        elif controller.get_key("up"):
             if not self.keydown:
                 self.selected -= 1
             self.keydown = True
@@ -39,10 +41,10 @@ class SaveFiles(State):
             self.keydown = False
         self.selected = self.selected%3
 
-        if keyboard.x and not self.xdown:
+        if controller.get_key("a") and not self.xdown:
            self.mainloop.state = NewGame(self.mainloop)
           
-        if not keyboard.x:
+        if not controller.get_key("a"):
            self.xdown = False
 
     def draw_slots(self):

@@ -5,7 +5,9 @@ from system.screen import getscale
 
 from .wander import WanderState
 
-with open("./data/menu/disclaimer.txt") as file:
+import controller
+
+with open("data/menu/disclaimer.txt") as file:
     instructions = file.read().split("\n")
 
 class NewGame(State):
@@ -14,10 +16,10 @@ class NewGame(State):
     def update(self):
         global instructions
 
-        if keyboard.x and not self.hack:
+        if controller.get_key("a") and not self.hack:
             self.mainloop.state = WanderState(self.mainloop)
 
-        if not keyboard.x:
+        if not controller.get_key("a"):
             self.hack = False
 
     def draw_instructions(self):
