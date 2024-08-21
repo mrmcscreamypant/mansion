@@ -1,0 +1,1 @@
+pyinstaller main.py --onefile --windowed --collect-all pgzero --add-data=fonts:fonts --add-data=images:images --add-data=data:data
